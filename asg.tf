@@ -36,7 +36,8 @@ resource "aws_launch_template" "nomad_client" {
   }  
   update_default_version = true
 
-  user_data = base64encode(templatefile("${path.module}/templates/userdata.sh.tftpl", { 
+  user_data = base64encode(templatefile("${path.module}/templates/userdata.sh.tftpl", {
+    name                  = var.name,
     datacenter            = var.datacenter, 
     nomad_version         = var.nomad_version,
     nomad_token           = var.nomad_token,
