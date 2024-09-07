@@ -3,7 +3,7 @@ resource "aws_autoscaling_group" "nomad_client" {
   max_size                  = 3
   min_size                  = 1
   health_check_grace_period = 300
-  health_check_type         = "ELB"
+  health_check_type         = "EC2"
   desired_capacity          = "${var.nomad_client_count}"
   launch_template {
     id = aws_launch_template.nomad_client.id
