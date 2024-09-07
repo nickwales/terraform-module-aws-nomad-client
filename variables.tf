@@ -18,7 +18,7 @@ variable "nomad_token" {
 }
 
 variable "nomad_version" {
-  default = "1.7.0"
+  default = "1.8.3"
 }
 variable "nomad_binary" {
   description = "Allows upgrading to nomad Enterprise"
@@ -30,7 +30,7 @@ variable "consul_binary" {
 }
 
 variable "consul_version" {
-  default = "1.16.2"
+  default = "1.19.2"
 }
 variable "consul_license" {
   default = ""
@@ -72,7 +72,7 @@ variable "vault_jwt_path" {
 }
 
 variable "nomad_client_count" {
-  description = "The number of nomad clients, should be 1 or 3"
+  description = "The number of nomad clients, should be 1, 3 or 5"
   default = 1
 }
 
