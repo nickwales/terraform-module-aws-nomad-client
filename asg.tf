@@ -25,7 +25,7 @@ resource "aws_launch_template" "nomad_client" {
   iam_instance_profile {
     name = aws_iam_instance_profile.nomad_client.name
   }
-  name = "nomad-client-${var.datacenter}"
+  name = "nomad-client-${var.name}-${var.datacenter}"
   tag_specifications {
     resource_type = "instance"
 
