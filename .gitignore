@@ -1,0 +1,5 @@
+.terraform*
+terraform*
+*hclic
+*.pem
+*vault-creds.json
