@@ -41,7 +41,6 @@ resource "aws_launch_template" "nomad_client" {
     nomad_version         = var.nomad_version,
     nomad_token           = var.nomad_token,
     nomad_encryption_key  = var.nomad_encryption_key,
-    nomad_bootstrap_token = var.nomad_bootstrap_token,
     nomad_client_count    = var.nomad_client_count,
     nomad_key_file        = var.key_file,
     nomad_cert_file       = var.cert_file,

@@ -80,11 +80,13 @@ variable "nomad_encryption_key" {
   default = "P4+PEZg4jDcWkSgHZ/i3xMuHaMmU8rx2owA4ffl2K8w="
 }
 
-variable "nomad_bootstrap_token" {}
-
 variable "ca_file" {}
-variable "cert_file" {}
-variable "key_file" {}
+variable "cert_file" {
+  default = ""
+}
+variable "key_file" {
+  default = ""
+}
 
 variable "target_groups" {
   description = "List of target groups"
