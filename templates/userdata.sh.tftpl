@@ -10,6 +10,7 @@ chmod ugo+r /etc/apt/trusted.gpg.d/hashicorp.gpg
 apt-add-repository -y "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 apt update && apt install -y unzip ${nomad_binary}="${nomad_version}*" \
   ${consul_binary}="${consul_version}*" \
+  consul-cni="${consul_cni_version}*" \ 
   consul-template hashicorp-envoy haproxy \
   jq net-tools docker.io
 
@@ -22,10 +23,8 @@ echo "CONSUL_HTTP_TOKEN=${consul_token}" >> /etc/environment
 echo "CONSUL_HTTP_ADDR=https://127.0.0.1:8501" >> /etc/environment
 echo "CONSUL_HTTP_SSL_VERIFY=false" >> /etc/environment
 
-
 # Configure Consul and start it up
 echo CONSUL_LICENSE=${consul_license} >> /etc/consul.d/consul.env
-
 cat <<EOT > /etc/consul.d/consul.hcl
 datacenter = "${datacenter}"
 partition = "${consul_partition}"
@@ -135,6 +134,5 @@ EOT
 curl -L -o cni-plugins.tgz "https://github.com/containernetworking/plugins/releases/download/v${cni_plugin_version}/cni-plugins-linux-$( [ $(uname -m) = aarch64 ] && echo arm64 || echo amd64)"-v${cni_plugin_version}.tgz && \
   sudo mkdir -p /opt/cni/bin && \
   sudo tar -C /opt/cni/bin -xzf cni-plugins.tgz
-
 
 systemctl enable nomad --now
