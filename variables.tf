@@ -50,6 +50,11 @@ variable "consul_encryption_key" {
   default = ""
 }
 
+variable "consul_cni_version" {
+  description = "The consul CNI version to install"
+  default = "1.5.3"
+}
+
 variable "cni_plugin_version" {
   description = "The version of CNI Plugin Bundle to install"
   default = "1.5.1"
