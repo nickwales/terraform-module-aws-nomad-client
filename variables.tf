@@ -52,12 +52,12 @@ variable "consul_encryption_key" {
 
 variable "consul_cni_version" {
   description = "The consul CNI version to install"
-  default = "1.5.3"
+  default     = "1.5.3"
 }
 
 variable "cni_plugin_version" {
   description = "The version of CNI Plugin Bundle to install"
-  default = "1.5.1"
+  default     = "1.5.1"
 }
 
 variable "datacenter" {
@@ -78,7 +78,7 @@ variable "vault_jwt_path" {
 
 variable "nomad_client_count" {
   description = "The number of nomad clients, should be 1, 3 or 5"
-  default = 1
+  default     = 1
 }
 
 variable "nomad_encryption_key" {
@@ -95,6 +95,6 @@ variable "key_file" {
 
 variable "target_groups" {
   description = "List of target groups"
-  type    = list(string)
-  default = [""]
+  type        = list(string)
+  default     = [""]
 }
