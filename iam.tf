@@ -23,23 +23,23 @@ resource "aws_iam_role" "nomad_client" {
 }
 
 resource "aws_iam_role_policy" "nomad_client" {
-    name_prefix = "nomad-client-${var.name}-${var.datacenter}"
+  name_prefix = "nomad-client-${var.name}-${var.datacenter}"
 
-    role = aws_iam_role.nomad_client.id
-    policy = jsonencode({
-        Version = "2012-10-17"
-        Statement = [
-          {
-            Action = [
-                "ec2:DescribeInstances",
-                "ec2:DescribeTags",
-                "autoscaling:DescribeAutoScalingGroups",
-            ]
-            Effect = "Allow"
-            Resource = "*"
-          },
+  role = aws_iam_role.nomad_client.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "ec2:DescribeInstances",
+          "ec2:DescribeTags",
+          "autoscaling:DescribeAutoScalingGroups",
         ]
-    })
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "read-only-attach" {
