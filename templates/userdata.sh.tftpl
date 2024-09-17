@@ -10,8 +10,10 @@ chmod ugo+r /etc/apt/trusted.gpg.d/hashicorp.gpg
 apt-add-repository -y "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 apt update && apt install -y unzip ${nomad_binary}="${nomad_version}*" \
   ${consul_binary}="${consul_version}*" \
-  consul-cni="${consul_cni_version}*" \ 
-  consul-template hashicorp-envoy haproxy \
+  consul-cni="${consul_cni_version}*" \
+  consul-template \
+  hashicorp-envoy \
+  haproxy \
   jq net-tools docker.io
 
 # Lay down consul certificates
