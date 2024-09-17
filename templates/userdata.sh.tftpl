@@ -88,11 +88,18 @@ DNSSEC=false
 Domains=~consul
 EOT
 
+
+## Enables docker containers to use Consul DNS 
+## Ensure to set 'dns_servers = ["172.17.0.1"]' in the task config
+cat <<EOT > /etc/systemd/resolved.conf.d/docker.conf
+[Resolve]
+DNSStubListenerExtra=172.17.0.1
+EOT
+
 systemctl restart systemd-resolved
 
 
 # Configure Nomad and start it up
-
 cat <<EOT > /etc/nomad.d/nomad.hcl
 # Setup data dir
 data_dir = "/opt/nomad"
