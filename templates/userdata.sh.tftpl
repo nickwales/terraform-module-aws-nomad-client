@@ -95,7 +95,10 @@ cat <<EOT > /etc/nomad.d/nomad.hcl
 # Setup data dir
 data_dir = "/opt/nomad"
 
-# Enable the server
+region = "${nomad_region}"
+datacenter = "${nomad_datacenter}"
+
+# Enable the client
 client {
   enabled = true
 }

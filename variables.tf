@@ -76,6 +76,14 @@ variable "vault_jwt_path" {
   default = "jwt"
 }
 
+variable "nomad_region" {
+  default = "dc1"
+}
+
+variable "nomad_datacenter" {
+  default = "dc1"
+}
+
 variable "nomad_client_count" {
   description = "The number of nomad clients, should be 1, 3 or 5"
   default     = 1
