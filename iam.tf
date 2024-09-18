@@ -4,7 +4,7 @@ resource "aws_iam_instance_profile" "nomad_client" {
 }
 
 resource "aws_iam_role" "nomad_client" {
-  name_prefix = "nomad-client-${var.name}-${var.datacenter}"
+  name_prefix = "nomad-client-${var.name}-${var.consul_partition}-${var.datacenter}"
   path        = "/"
 
   assume_role_policy = jsonencode({
@@ -23,7 +23,7 @@ resource "aws_iam_role" "nomad_client" {
 }
 
 resource "aws_iam_role_policy" "nomad_client" {
-  name_prefix = "nomad-client-${var.name}-${var.datacenter}"
+  name_prefix = "nomad-client-${var.name}-${var.consul_partition}-${var.datacenter}"
 
   role = aws_iam_role.nomad_client.id
   policy = jsonencode({

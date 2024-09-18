@@ -1,5 +1,5 @@
 resource "aws_security_group" "nomad_client" {
-  name_prefix = "${var.name}-${var.datacenter}"
+  name_prefix = "${var.name}-${var.consul_partition}-${var.datacenter}"
   description = "Allow TLS inbound traffic"
   vpc_id      = var.vpc_id
 

@@ -1,5 +1,5 @@
 resource "aws_autoscaling_group" "nomad_client" {
-  name                      = "nomad-client-${var.name}-${var.datacenter}"
+  name                      = "nomad-client-${var.name}-${var.consul_partition}-${var.datacenter}"
   max_size                  = 3
   min_size                  = 1
   health_check_grace_period = 300
@@ -13,7 +13,7 @@ resource "aws_autoscaling_group" "nomad_client" {
 
   tag {
     key                 = "Name"
-    value               = "nomad-client-${var.name}-${var.datacenter}"
+    value               = "nomad-client-${var.name}-${var.consul_partition}-${var.datacenter}"
     propagate_at_launch = true
   }
 }
@@ -25,13 +25,13 @@ resource "aws_launch_template" "nomad_client" {
   iam_instance_profile {
     name = aws_iam_instance_profile.nomad_client.name
   }
-  name = "nomad-client-${var.name}-${var.datacenter}"
+  name = "nomad-client-${var.name}-${var.consul_partition}-${var.datacenter}"
   tag_specifications {
     resource_type = "instance"
 
     tags = {
-      Name = "nomad-client-${var.name}-${var.datacenter}",
-      role = "nomad-client-${var.name}-${var.datacenter}",
+      Name = "nomad-client-${var.name}-${var.consul_partition}-${var.datacenter}",
+      role = "nomad-client-${var.name}-${var.consul_partition}-${var.datacenter}",
     }
   }
   update_default_version = true
