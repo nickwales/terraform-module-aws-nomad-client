@@ -2,6 +2,7 @@
 
 ## Get instance IP from cloud-init (replace with VM IP when appropriate)
 INSTANCE_IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
+AZ=$(curl http://169.254.169.254/latest/meta-data/placement/availability-zone)
 
 ## Install keys, repos and packages
 wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor > /etc/apt/trusted.gpg.d/hashicorp.gpg
@@ -15,6 +16,11 @@ apt update && apt install -y unzip ${nomad_binary}="${nomad_version}*" \
   hashicorp-envoy \
   haproxy \
   jq net-tools docker.io
+
+## Get instance IP from cloud-init (replace with VM IP when appropriate)
+INSTANCE_IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
+AZ=$(curl http://169.254.169.254/latest/meta-data/placement/availability-zone)
+REGION=$(curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
 
 # Lay down consul certificates
 mkdir -p /etc/consul.d/certs
@@ -74,6 +80,11 @@ ports = {
 }
 
 retry_join = ["provider=aws tag_key=role tag_value=consul-server-${name}-${datacenter}"]
+
+locality = { 
+  region = "$${REGION}"
+  zone = "$${AZ}"
+}
 EOT
 
 systemctl daemon-reload
