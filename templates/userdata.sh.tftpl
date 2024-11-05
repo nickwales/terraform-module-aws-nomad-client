@@ -22,6 +22,8 @@ INSTANCE_IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
 AZ=$(curl http://169.254.169.254/latest/meta-data/placement/availability-zone)
 REGION=$(curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
 
+
+if ${consul_enabled}; then 
 # Lay down consul certificates
 mkdir -p /etc/consul.d/certs
 echo "${consul_ca_file}" > /etc/consul.d/certs/consul-agent-ca.pem
@@ -99,6 +101,7 @@ DNSSEC=false
 Domains=~consul
 EOT
 
+fi
 
 ## Enables docker containers to use Consul DNS 
 ## Ensure to set 'dns_servers = ["172.17.0.1"]' in the task config
@@ -121,6 +124,10 @@ datacenter = "${nomad_datacenter}"
 # Enable the client
 client {
   enabled = true
+
+  server_join {
+    retry_join = ["provider=aws tag_key=role tag_value=nomad-server-${name}-${datacenter}-voter"]
+  }  
 }
 
 # tls {

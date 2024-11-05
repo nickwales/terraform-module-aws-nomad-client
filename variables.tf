@@ -25,6 +25,10 @@ variable "nomad_binary" {
   default     = "nomad"
 }
 
+variable "consul_enabled" {
+  default = true
+}
+
 variable "consul_binary" {
   default = "consul"
 }

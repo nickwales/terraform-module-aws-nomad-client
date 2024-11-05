@@ -49,6 +49,7 @@ resource "aws_launch_template" "nomad_client" {
     nomad_cert_file       = var.cert_file,
     nomad_binary          = var.nomad_binary,
     nomad_ca_file         = var.ca_file,
+    consul_enabled        = var.consul_enabled,
     consul_ca_file        = var.consul_ca_file,
     consul_binary         = var.consul_binary,
     consul_version        = var.consul_version,
