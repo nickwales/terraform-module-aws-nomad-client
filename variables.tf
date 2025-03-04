@@ -110,3 +110,9 @@ variable "target_groups" {
   type        = list(string)
   default     = [""]
 }
+
+variable "additional_security_groups" {
+  description = "List of security groups"
+  type        = list(string)
+  default     = [""]  
+}

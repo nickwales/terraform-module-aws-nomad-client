@@ -65,5 +65,5 @@ resource "aws_launch_template" "nomad_client" {
     cni_plugin_version    = var.cni_plugin_version,
     consul_cni_version    = var.consul_cni_version
   }))
-  vpc_security_group_ids = [aws_security_group.nomad_client.id]
+  vpc_security_group_ids = concat([aws_security_group.nomad_client.id],var.additional_security_groups)
 }
