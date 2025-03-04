@@ -34,7 +34,8 @@ resource "aws_iam_role_policy" "nomad_client" {
           "ec2:DescribeInstances",
           "ec2:DescribeTags",
           "autoscaling:DescribeAutoScalingGroups",
-          "ec2:AuthorizeSecurityGroupIngress"
+          "ec2:AuthorizeSecurityGroupIngress",
+          "ec2:RevokeSecurityGroupIngress"
         ]
         Effect   = "Allow"
         Resource = "*"
