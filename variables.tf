@@ -18,7 +18,7 @@ variable "nomad_token" {
 }
 
 variable "nomad_version" {
-  default = "1.8.3"
+  default = "1.9.7"
 }
 variable "nomad_binary" {
   description = "Allows upgrading to nomad Enterprise"
@@ -34,7 +34,7 @@ variable "consul_binary" {
 }
 
 variable "consul_version" {
-  default = "1.19.2"
+  default = "1.20.5"
 }
 variable "consul_license" {
   default = ""
@@ -56,12 +56,12 @@ variable "consul_encryption_key" {
 
 variable "consul_cni_version" {
   description = "The consul CNI version to install"
-  default     = "1.5.3"
+  default     = "1.6.3"
 }
 
 variable "cni_plugin_version" {
   description = "The version of CNI Plugin Bundle to install"
-  default     = "1.5.1"
+  default     = "1.6.2"
 }
 
 variable "datacenter" {
