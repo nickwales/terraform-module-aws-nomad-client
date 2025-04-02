@@ -14,8 +14,8 @@ apt update && apt install -y unzip ${nomad_binary}="${nomad_version}*" \
   consul-cni="${consul_cni_version}*" \
   consul-template \
   hashicorp-envoy \
-  haproxy \
-  jq net-tools docker.io
+  nomad-driver-exec2 \
+  haproxy jq net-tools docker.io
 
 ## Get instance IP from cloud-init (replace with VM IP when appropriate)
 INSTANCE_IP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
@@ -87,7 +87,35 @@ locality = {
   region = "$${REGION}"
   zone = "$${AZ}"
 }
+
+plugin "nomad-driver-exec2" {
+  config {
+    unveil_defaults = true
+    unveil_paths    = []
+    unveil_by_task  = true
+  }
+}
 EOT
+
+cat <<EOT > /tmp/auth_method.json
+{
+    "Name": "agent-iam-auth",
+    "Type": "aws-iam",
+    "Description": "Agent AWS IAM auth method",
+    "Config": {
+      "BoundIAMPrincipalARNs": ["arn:aws:iam::123456789012:role/MyRoleName"],
+      "EnableIAMEntityDetails": true,
+      "IAMEntityTags": ["consul-namespace"],
+      "ServerIDHeaderValue": "my.consul.server.example.com",
+      "MaxRetries": 3,
+      "IAMEndpoint": "https://iam.amazonaws.com/",
+      "STSEndpoint": "https://sts.us-east-1.amazonaws.com/",
+      "AllowedSTSHeaderValues": ["X-Extra-Header"]
+    }
+}
+EOT
+
+consul acl auth-method create
 
 systemctl daemon-reload
 systemctl enable consul --now
@@ -130,6 +158,8 @@ client {
   }  
 }
 
+plugin_dir = "/opt/nomad/plugins"
+
 # tls {
 #   http = true
 #   rpc  = true
@@ -161,8 +191,14 @@ vault {
 }
 EOT
 
+## Plugins
 curl -L -o cni-plugins.tgz "https://github.com/containernetworking/plugins/releases/download/v${cni_plugin_version}/cni-plugins-linux-$( [ $(uname -m) = aarch64 ] && echo arm64 || echo amd64)"-v${cni_plugin_version}.tgz && \
   sudo mkdir -p /opt/cni/bin && \
   sudo tar -C /opt/cni/bin -xzf cni-plugins.tgz
+
+curl -L -o exec2.zip "https://releases.hashicorp.com/nomad-driver-exec2/0.1.0/nomad-driver-exec2_0.1.0_linux_amd64.zip" 
+sudo mkdir -p /opt/nomad/plugins
+sudo unzip ./exec2.zip -d  /opt/nomad/plugins -x LICENSE.txt
+sudo rm ./exec2.zip
 
 systemctl enable nomad --now
