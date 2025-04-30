@@ -4,8 +4,8 @@ resource "aws_iam_instance_profile" "nomad_client" {
 }
 
 resource "aws_iam_role" "nomad_client" {
-  name_prefix = "nomad-client-${var.name}-${var.consul_partition}-${var.datacenter}"
-  path        = "/"
+  name = "nomad-client-${var.name}-${var.consul_partition}-${var.datacenter}"
+  path = "/"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
