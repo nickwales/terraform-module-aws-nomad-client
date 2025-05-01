@@ -135,6 +135,7 @@ fi
 ## Ensure to set 'dns_servers = ["172.17.0.1"]' in the task config
 cat <<EOT > /etc/systemd/resolved.conf.d/docker.conf
 [Resolve]
+DNSStubListener=yes
 DNSStubListenerExtra=172.17.0.1
 EOT
 
