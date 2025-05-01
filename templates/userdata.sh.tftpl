@@ -88,34 +88,27 @@ locality = {
   zone = "$${AZ}"
 }
 
-plugin "nomad-driver-exec2" {
-  config {
-    unveil_defaults = true
-    unveil_paths    = []
-    unveil_by_task  = true
-  }
-}
 EOT
 
-cat <<EOT > /tmp/auth_method.json
-{
-    "Name": "agent-iam-auth",
-    "Type": "aws-iam",
-    "Description": "Agent AWS IAM auth method",
-    "Config": {
-      "BoundIAMPrincipalARNs": ["arn:aws:iam::123456789012:role/MyRoleName"],
-      "EnableIAMEntityDetails": true,
-      "IAMEntityTags": ["consul-namespace"],
-      "ServerIDHeaderValue": "my.consul.server.example.com",
-      "MaxRetries": 3,
-      "IAMEndpoint": "https://iam.amazonaws.com/",
-      "STSEndpoint": "https://sts.us-east-1.amazonaws.com/",
-      "AllowedSTSHeaderValues": ["X-Extra-Header"]
-    }
-}
-EOT
+# cat <<EOT > /tmp/auth_method.json
+# {
+#     "Name": "agent-iam-auth",
+#     "Type": "aws-iam",
+#     "Description": "Agent AWS IAM auth method",
+#     "Config": {
+#       "BoundIAMPrincipalARNs": ["arn:aws:iam::123456789012:role/MyRoleName"],
+#       "EnableIAMEntityDetails": true,
+#       "IAMEntityTags": ["consul-namespace"],
+#       "ServerIDHeaderValue": "my.consul.server.example.com",
+#       "MaxRetries": 3,
+#       "IAMEndpoint": "https://iam.amazonaws.com/",
+#       "STSEndpoint": "https://sts.us-east-1.amazonaws.com/",
+#       "AllowedSTSHeaderValues": ["X-Extra-Header"]
+#     }
+# }
+# EOT
 
-consul acl auth-method create
+# consul acl auth-method create
 
 systemctl daemon-reload
 systemctl enable consul --now
@@ -166,8 +159,18 @@ client {
   }  
 }
 
+## Plugins
+plugin "nomad-driver-exec2" {
+  config {
+    unveil_defaults = true
+    unveil_paths    = []
+    unveil_by_task  = false
+  }
+}
+
 plugin_dir = "/opt/nomad/plugins"
 
+## TLS
 # tls {
 #   http = true
 #   rpc  = true
