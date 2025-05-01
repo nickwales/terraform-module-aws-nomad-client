@@ -124,6 +124,8 @@ systemctl enable consul --now
 mkdir -p /etc/systemd/resolved.conf.d/
 cat <<EOT > /etc/systemd/resolved.conf.d/consul.conf
 [Resolve]
+DNSStubListener=yes
+DNSStubListenerExtra=172.17.0.1
 DNS=127.0.0.1:8600
 DNSSEC=false
 Domains=~consul
@@ -141,6 +143,11 @@ EOT
 
 systemctl restart systemd-resolved
 
+cat <<EOT > /etc/docker/daemon.json
+{
+  "dns": ["172.17.0.1"]
+}
+EOT
 
 # Configure Nomad and start it up
 cat <<EOT > /etc/nomad.d/nomad.hcl
