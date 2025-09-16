@@ -1,10 +1,10 @@
 resource "aws_autoscaling_group" "nomad_client" {
   name                      = "nomad-client-${var.name}-${var.consul_partition}-${var.datacenter}"
-  max_size                  = 3
-  min_size                  = 1
+  max_size                  = var.max_capacity
+  min_size                  = var.min_capacity  
   health_check_grace_period = 300
   health_check_type         = "EC2"
-  desired_capacity          = var.nomad_client_count
+  desired_capacity          = var.desired_capacity
   launch_template {
     id = aws_launch_template.nomad_client.id
   }

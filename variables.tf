@@ -13,6 +13,20 @@ variable "private_subnets" {
   default = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
 }
 
+variable "min_capacity" {
+  description = "The minimum number of instances to run in the autoscaling group"
+  default     = 0
+}
+
+variable "max_capacity" {
+  description = "The maximum number of instances to run in the autoscaling group"
+  default     = 10
+}
+
+variable "desired_capacity" {
+  description = "The desired number of instances to run in the autoscaling group"
+  default     = 1  
+}
 variable "nomad_token" {
   default = "root"
 }
