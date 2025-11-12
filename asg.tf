@@ -22,6 +22,14 @@ resource "aws_launch_template" "nomad_client" {
   instance_type = "t3.small"
   image_id      = data.aws_ami.ubuntu.id
 
+  block_device_mappings {
+    device_name = "/dev/sda1"
+
+    ebs {
+      volume_size = 30
+    }
+  }
+
   iam_instance_profile {
     name = aws_iam_instance_profile.nomad_client.name
   }
